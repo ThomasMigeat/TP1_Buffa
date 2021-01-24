@@ -145,6 +145,12 @@ class Grille {
 
     // on a swappé, est-ce qu'on a un ou plusieurs alignement ?
     this.detecteTousLesAlignements();
+
+    //on fait "redescendre" les cookie
+    this.comblerCaseVide();
+
+    //On crée de nouveau cookie qu'on ajoute suite à ceux supprimé 
+    this.ajouterCookieManquant();
     
   }
   /**
@@ -184,7 +190,7 @@ class Grille {
 
   detecteTousLesAlignements() {
     this.nbAlignements = 0;
-
+    
     // pour chaque ligne on va appeler detecteAlignementLigne et idem pour chaque colonne
     for (let l = 0; l < this.nbLignes; l++) {
       this.detecteAlignementLigne(l);
@@ -193,10 +199,6 @@ class Grille {
     for (let c = 0; c < this.nbColonnes; c++) {
       this.detecteAlignementColonne(c);
     }
-
-    this.comblerCaseVide();
-
-    this.ajouterCookieManquant();
 
     return this.nbAlignements !== 0;
   }
@@ -242,48 +244,25 @@ class Grille {
       }
     }
   }
-/*
-  comblerCaseVideColonne(l,c){
-    // On parcours tout le tableau pour savoir s'il y'a des cookie 
-     
-    
-    for(let colonne = c ; c >)
 
-
-
-        let cookie1 = this.tabCookies[ligne][colonne];
-        let cookie2 = this.tabCookies[ligne + 1][colonne];
-        let cookie3 = 
-        
-    
-        if(cookie2.isASupprimer()){
-          cookie2.annulerASupprimer();
-          cookie2.type = cookie1.type;
-          cookie2.htmlImage.src = cookie1.htmlImage.src;
-          cookie1.supprimer();
-    }
- } 
-
- comblerCaseVideLigne(){
-
- }
-
-}*/
 
 comblerCaseVide()
 {
-  
+  //On parcours chaque case du tableau en partant du bas
   for(let colonne = 0 ; colonne <= this.nbColonnes-1 ; colonne++){ console.log("ya");
     for(let ligne = this.nbLignes-1 ; ligne >= 0 ; ligne--){
      
       
       let cookie1 = this.tabCookies[ligne][colonne];
 
+      //Lorsqu'un cookie a été supprimé, on va parcourir la colonne ligne par ligne pour les faire "redescendre"
       if(cookie1.isASupprimer()){
         for(let tmp = ligne ; tmp >= 0 ; tmp--){
 
           let cookie2 = this.tabCookies[tmp][colonne];
 
+          //On les fait "redescendre" en fesant un swap entre la case vide, et la case qui doit descendre
+          //On fait réapparaitre le cookie qui a avait disparu initialement, et on fait disparaître le cookie du haut.
           if(!cookie2.isASupprimer()){
             cookie1.annulerASupprimer();
             cookie1.type = cookie2.type;
@@ -295,61 +274,17 @@ comblerCaseVide()
     }
   }
 }
-
-
-/*
-/let chute = 1;
-
-//while(chute===1){
-
-//chute = 0;
-  for(let ligne = 0 ; ligne < this.nbLignes-1 ; ligne++){
-      for(let colonne = 0 ; colonne < this.nbColonnes; colonne++){
-       
-        let cookie1 = this.tabCookies[ligne][colonne];
-        let cookie2 = this.tabCookies[ligne + 1][colonne];
-
-        if(cookie2.isASupprimer()){
-          let tmp = 0;
-
-          while(cookie2.isASupprimer()){
-            cookie2.annulerASupprimer();
-            cookie2.type = cookie1.type;
-            cookie2.htmlImage.src = cookie1.htmlImage.src;
-            cocookie2.htmlImage.src = cookie1.htmlImage.src;okie1.supprimer();  
-            //chute = 1;
-          }
-
-
-
-          
-        }
-      }
-    }
- // }
-/*
-contientCaseVide(){
-  for(let ligne = 0 ; ligne < this.nbLignes-1 ; ligne++){
-    for(let colonne = 0 ; colonne < this.nbColonnes; colonne++){
-      let cookie1 = this.tabCookies[ligne][colonne];
-
-      if(cookie1.isASupprimer){
-        return true;
-      }
-    }
-  }
-  return false;
-}
-*/
 }
 
 ajouterCookieManquant()
 {
+  //On parcours toute les cases du tableau
   for(let colonne = 0 ; colonne <= this.nbColonnes-1 ; colonne++){ 
     for(let ligne = this.nbLignes-1 ; ligne >= 0 ; ligne--){
 
       let cookie1 = this.tabCookies[ligne][colonne];
-
+      
+      //Dès qu'un cookie est dis "supprimé", alors on génère un cookie aléatoire
       if(cookie1.isASupprimer()){
         cookie1.type = Math.floor(Math.random() * this.nbCookiesDifferents);
         cookie1.htmlImage.src = Cookie.urlsImagesNormales[cookie1.type];
