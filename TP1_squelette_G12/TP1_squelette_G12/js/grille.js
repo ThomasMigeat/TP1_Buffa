@@ -190,7 +190,7 @@ class Grille {
 
   detecteTousLesAlignements() {
     this.nbAlignements = 0;
-    
+
     // pour chaque ligne on va appeler detecteAlignementLigne et idem pour chaque colonne
     for (let l = 0; l < this.nbLignes; l++) {
       this.detecteAlignementLigne(l);
@@ -274,6 +274,7 @@ comblerCaseVide()
     }
   }
 }
+this.detecteTousLesAlignements();
 }
 
 ajouterCookieManquant()
