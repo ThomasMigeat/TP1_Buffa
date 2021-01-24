@@ -145,12 +145,17 @@ class Grille {
 
     // on a swappé, est-ce qu'on a un ou plusieurs alignement ?
     this.detecteTousLesAlignements();
-
-    //on fait "redescendre" les cookie
+    
+    //Tant qu'il y'a plus d'un alignement, on réajuste les cookie
+    while(this.nbAlignements !== 0){
+      //on fait "redescendre" les cookie
     this.comblerCaseVide();
 
     //On crée de nouveau cookie qu'on ajoute suite à ceux supprimé 
     this.ajouterCookieManquant();
+
+    this.detecteTousLesAlignements();
+    }
     
   }
   /**
@@ -274,7 +279,6 @@ comblerCaseVide()
     }
   }
 }
-this.detecteTousLesAlignements();
 }
 
 ajouterCookieManquant()
